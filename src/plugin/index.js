@@ -6,6 +6,7 @@ export default class {
 	}
 	
 	init(Component) {
+		
 		Component.prototype.$post = function (url, data = {}) {
 			
 			return fetch(`${BASE_INTERFACE}${url}`, {
@@ -21,6 +22,6 @@ export default class {
 				console.error(e);
 			})
 			
-		}
+		};
 	}
 }
