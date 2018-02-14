@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {THEME_COLOR, BUTTON_PRESS_COLOR, THEME_COLOR_WHITE} from '../config'
 import {
 	StyleSheet,
 	TouchableHighlight,
@@ -8,6 +7,9 @@ import {
 	TextInput,
 	Image,
 } from 'react-native';
+
+import {THEME_COLOR, BUTTON_PRESS_COLOR, THEME_COLOR_WHITE} from '../config'
+import StatusModal  from '../component/public/StatusModal'
 
 const styles = StyleSheet.create({
 	page: {
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
 		height: 40,
 		width: 300,
 		marginBottom: 30,
-		fontSize: 16,
+		fontSize: 14,
 	},
 
 	loginBtn: {
@@ -66,16 +68,21 @@ export default class extends Component<> {
 	}
 
 	async login() {
+        this.refs.statusModal.setModalVisible(true);
+return;
 		let res = await this.$post("user/login", this.state);
-		alert(JSON.stringify(res))
+		if(res.code === 0){
+            this.refs.statusModal.setModalVisible(true);
+        }else {
+            alert(res.msg);
+        }
 	}
 
 	render() {
 		return (
 			<View style={styles.page}>
 				<Image style={styles.logo}
-				       source={require('../img/logo.png')}>
-
+				       source={require('../img/logo.jpg')}>
 				</Image>
 
 				<TextInput
@@ -112,6 +119,8 @@ export default class extends Component<> {
 					</Text>
 				</TouchableHighlight>
 
+
+                <StatusModal ref="statusModal" />
 			</View>
 		);
 	}

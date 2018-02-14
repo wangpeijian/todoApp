@@ -6,7 +6,7 @@ const BUTTON_PRESS_COLOR = "#222222";
 
 
 //项目配置
-const BASE_INTERFACE = "http://192.168.1.106:8088/";
+const BASE_INTERFACE = "http://172.16.43.24:8088/api/";
 
 
 export {

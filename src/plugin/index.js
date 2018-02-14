@@ -20,6 +20,7 @@ export default class {
 				return res;
 			}).catch(function (e) {
 				console.error(e);
+				alert(e);
 			})
 			
 		};

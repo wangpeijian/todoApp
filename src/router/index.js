@@ -69,7 +69,7 @@ export default StackNavigator({
 		}
 	},
 	{
-		initialRouteName: 'Home',
+		initialRouteName: 'Login',
 		navigationOptions: {
 			headerStyle: {
 				backgroundColor: THEME_COLOR,
