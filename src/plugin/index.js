@@ -1,3 +1,7 @@
+import {
+	AsyncStorage,
+} from 'react-native';
+
 import {BASE_INTERFACE} from '../config'
 
 export default class {
@@ -23,6 +27,14 @@ export default class {
 				alert(e);
 			})
 			
+		};
+		
+		Component.prototype.$getStorage = function (key) {
+			return AsyncStorage.getItem(key);
+		};
+		
+		Component.prototype.$setStorage = function (key, value) {
+			return AsyncStorage.setItem(key, value);
 		};
 	}
 }

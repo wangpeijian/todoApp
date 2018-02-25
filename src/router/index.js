@@ -18,7 +18,8 @@ const ICON_ME_ACTIVE = require('../img/homeTab/me-active.png');
 import Home from '../view/Home'
 import Me from '../view/Me'
 import Login from '../view/Login'
-
+import Register from '../view/Register'
+import AddItem from '../view/AddItem'
 
 const styles = StyleSheet.create({
 	tabIcon: {
@@ -66,10 +67,16 @@ export default StackNavigator({
 		},
 		Login: {
 			screen: Login,
+		},
+		Register: {
+			screen: Register,
+		},
+		AddItem: {
+			screen: AddItem,
 		}
 	},
 	{
-		initialRouteName: 'Login',
+		initialRouteName: 'Home',
 		navigationOptions: {
 			headerStyle: {
 				backgroundColor: THEME_COLOR,

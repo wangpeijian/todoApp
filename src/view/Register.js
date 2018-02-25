@@ -5,24 +5,17 @@ import {
 	Text,
 	View,
 	TextInput,
-	Image,
 	Alert,
 } from 'react-native';
 
-import {THEME_COLOR, BUTTON_PRESS_COLOR, THEME_COLOR_WHITE, THEME_COLOR_BORDER} from '../config'
+import {THEME_COLOR, BUTTON_PRESS_COLOR, THEME_COLOR_WHITE} from '../config'
 import StatusModal from '../component/public/StatusModal'
 
 const styles = StyleSheet.create({
 	page: {
 		flex: 1,
 		alignItems: 'center',
-	},
-	
-	logo: {
-		width: 150,
-		height: 150,
-		marginTop: 50,
-		marginBottom: 50,
+		paddingTop: 50
 	},
 	
 	input: {
@@ -46,29 +39,12 @@ const styles = StyleSheet.create({
 		lineHeight: 40,
 	},
 	
-	registerBox: {
-		marginTop: 10,
-		width: 280,
-		flexDirection: 'row',
-		justifyContent: 'flex-end',
-	},
-	
-	register: {
-		color: THEME_COLOR,
-		paddingLeft: 2,
-		paddingRight: 2,
-		marginTop: 5,
-		textAlign: 'right',
-		// borderBottomWidth: 1,
-		// borderColor: THEME_COLOR_BORDER,
-		// borderStyle:'solid',
-	}
 });
 
 export default class extends Component<> {
 	static navigationOptions = ({navigation, navigationOptions}) => {
 		return {
-			title: '登录',
+			title: '注册',
 		}
 	};
 	
@@ -78,6 +54,7 @@ export default class extends Component<> {
 		this.state = {
 			phone: "",
 			password: "",
+			passwordTwo: '',
 		};
 	}
 	
@@ -85,13 +62,18 @@ export default class extends Component<> {
 	
 	}
 	
-	async login() {
-		if(!this.state.phone || !this.state.password){
-			Alert.alert("提示","请输入手机号密码");
+	async register() {
+		if(!this.state.phone || !this.state.password || !this.state.passwordTwo){
+			Alert.alert("提示","请输入信息");
 			return;
 		}
 		
-		let res = await this.$post("user/login", this.state);
+		if(this.state.password !== this.state.passwordTwo){
+			Alert.alert("提示","两次密码不一致");
+			return;
+		}
+		
+		let res = await this.$post("user/register", this.state);
 		if (res.code === 0) {
 			this.refs.statusModal.setModalVisible({
 				visible: true,
@@ -102,10 +84,6 @@ export default class extends Component<> {
 					this.goback()
 				},
 			});
-			const {id, name, phone} = res.data;
-			this.$setStorage("id", id);
-			this.$setStorage("name", name);
-			this.$setStorage("phone", phone);
 		} else {
 			Alert.alert("错误",res.msg);
 		}
@@ -115,18 +93,9 @@ export default class extends Component<> {
 		this.props.navigation.goBack();
 	}
 	
-	
-	register() {
-		this.props.navigation.navigate('Register', {});
-	}
-	
 	render() {
 		return (
 			<View style={styles.page}>
-				<Image style={styles.logo}
-				       source={require('../img/logo.jpg')}>
-				</Image>
-				
 				<TextInput
 					style={styles.input}
 					underlineColorAndroid={BUTTON_PRESS_COLOR}
@@ -147,22 +116,27 @@ export default class extends Component<> {
 					placeholder={"登录密码"}
 				/>
 				
+				<TextInput
+					style={styles.input}
+					underlineColorAndroid={BUTTON_PRESS_COLOR}
+					onChangeText={(passwordTwo) => this.setState({passwordTwo})}
+					value={this.state.passwordTwo}
+					keyboardType={"default"}
+					autoCapitalize={'none'}
+					secureTextEntry={true}
+					placeholder={"再次输入密码"}
+				/>
+				
 				<TouchableHighlight
 					style={styles.loginBtn}
 					underlayColor={BUTTON_PRESS_COLOR}
 					onPress={() => {
-						this.login()
+						this.register()
 					}}
 				>
 					<Text style={styles.loginText}>
-						登录
+						注册
 					</Text>
-				</TouchableHighlight>
-				
-				<TouchableHighlight style={styles.registerBox} onPress={() => {
-					this.register()
-				}}>
-					<Text style={styles.register}>注册</Text>
 				</TouchableHighlight>
 				
 				<StatusModal ref="statusModal"/>
